@@ -27,14 +27,14 @@ class Devices extends BaseController {
 	// 	$this->data['device'] = DBDevices::getSingleDevice($id);
 	// 	$this->show_view('device');
 	// }
-	// public function changeDeviceLocation ($location_id, $device_id) {
-	// 	$req = DBDevices::changeDeviceLocation($location_id, $device_id);
-	// 	if ($req) {
-	// 	// if (false) {
-	// 		Msg::createMessage("msg1", "Success.");
-	// 	} else {
-	// 		Msg::createMessage("msg1", "Unsuccess.");
-	// 	}
-	// 	header("Location: ".INCL_PATH."Devices/panel");
-	// }
+	public function changeDeviceLocation ($location_id, $device_id) {
+		$req = DBDevices::changeDeviceLocation($location_id, $device_id);
+		if ($req) {
+		// if (false) {
+			Msg::createMessage("msg1", "Success.");
+		} else {
+			Msg::createMessage("msg1", "Unsuccess.");
+		}
+		header("Location: ".INCL_PATH."Storage/locations");
+	}
 }

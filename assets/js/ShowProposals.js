@@ -14,6 +14,16 @@ class ShowProposals {
 				var label_text = $(e.target).parents('.form-group').find('label').text();
 				if (label_text == 'Serijski broj uređaja: ') {
 					var fn = 'device';
+				} else if (label_text == 'Ser. br. uređaja u magacinu: ') {
+					var fn = 'devicesInStorage';
+				} else if (label_text == 'Ser. br. uređaja u Lanusu: ') {
+					var fn = 'devicesInLanus';
+				} else if (label_text == 'Lokacija: ') {
+					var fn = 'location';
+				} else if (label_text == 'Stari - Ser.br.: ') {
+					var fn = 'devicesOnOtherLocations';
+				} else if (label_text == 'Novi - Ser.br.: ') {
+					var fn = 'devicesInService';
 				}
 				
 				setTimeout(function(){
@@ -25,11 +35,13 @@ class ShowProposals {
 							var response = JSON.parse(data);
 							var div_html = '';
 							$.each(response, function(i, val){
-								// adding model if proposals are for phone
-								if (fn == 'phone') {
-									div_html += `<li class="pl-1" data-model="${response[i].model}">${response[i].ajax_data}</li>`;
-								} else if (fn == 'device') {
+								// adding id if proposals are for devices or locations
+								if (fn == 'location') {
+									div_html += `<li class="pl-1" data-location_id="${response[i].id}">${response[i].ajax_data}</li>`;
+								} else if (fn == 'device' || fn == 'devicesInStorage' || fn == 'devicesInLanus' || fn == 'devicesInService') {
 									div_html += `<li class="pl-1" data-device_id="${response[i].id}">${response[i].ajax_data}</li>`;
+								} else if (fn == 'devicesOnOtherLocations') {
+									div_html += `<li class="pl-1" data-device_id="${response[i].id}" data-location="${response[i].location}">${response[i].ajax_data}</li>`;
 								} else {
 									div_html += `<li class="pl-1">${response[i].ajax_data}</li>`;
 								}
@@ -64,10 +76,15 @@ class ShowProposals {
 								$(self).attr('data-validate', 'true');
 								$(this).parents('.mt-5').find('.proposals').addClass('d-none');
 								// *****************************
-								if (fn == 'device') {
-									// console.log($(this).data)
-									$(self).parent().find('.device_sn_hidden').val($(this).data('device_id'));
-									// $('#location_id').val($(this).data('location_id'));
+								if (fn == 'device' || fn == 'devicesInStorage' || fn == 'devicesInLanus') {
+									$(self).parents().find('#device_id').val($(this).data('device_id'));
+								} else if (fn == 'location') {
+									$(self).parents().find('#location_id').val($(this).data('location_id'));
+								} else if (fn == 'devicesOnOtherLocations') {
+									$(self).parents().find('#old_device_id').val($(this).data('device_id'));
+									$(self).parents().find('#location').val($(this).data('location'));
+								} else if (fn == 'devicesInService') {
+									$(self).parents().find('#new_device_id').val($(this).data('device_id'));
 								}
 							});
 						},

@@ -9,7 +9,7 @@ if (Auth::logged()) {
 	// Route::get('/Devices/panel', 'Devices@showPageNumTwo');
 	// Route::get('/Devices/{id}', 'Devices@showSingleDevice', $req = ['/^\d+$/']);
 	// Route::get('/Devices/{page}', 'Devices@index', $req = ['/^p\d+$/']);
-	// Route::post('/Devices/changeDeviceLocation', 'Devices@changeDeviceLocation');
+	Route::post('/Devices/changeDeviceLocation', 'Devices@changeDeviceLocation');
 
 	Route::get('/SIMs/index', 'SIMs@index');
 	// Route::get('/SIMs/panel', 'SIMs@showAddNewSimPage');
@@ -17,7 +17,7 @@ if (Auth::logged()) {
 	// Route::get('/SIMs/{page}', 'SIMs@index', $req = ['/^p\d+$/']);
 	// Route::post('/SIMs/addNewSIM', 'SIMs@addNewSIM');
 
-	// Route::post('/Locations/addNewLocation', 'Locations@addNewLocation');
+	Route::post('/Locations/addNewLocation', 'Locations@addNewLocation');
 
 	Route::get('/Storage/index', 'Storage@index');
 	Route::get('/Storage/locations', 'Storage@showLocationsPage');
@@ -32,8 +32,8 @@ if (Auth::logged()) {
 	// Route::post('/Models/addNewModel', 'Models@addNewModel');
 
 	Route::get('/Service/index', 'Service@index');
-	// Route::get('/Service/panel', 'Service@showServiceActionPage');
-	// Route::get('/Service/admin', 'Service@showServiceAdminPage');
+	Route::get('/Service/history', 'Service@malHistory');
+	Route::get('/Service/administration', 'Service@administration');
 	// Route::get('/Service/switchTerminals', 'Service@switchTerminals');
 
 	if (Auth::admin()) {

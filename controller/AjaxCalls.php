@@ -58,13 +58,33 @@ class AjaxCalls extends BaseController {
 	// 	echo json_encode($response);
 	// }
 
-	// public function phoneFilter () {
-	// 	$response = DBPhones::getFilteredPhonesForCharge($this->search_value);
-	// 	echo json_encode($response);
-	// }
+	public function locationFilter () {
+		$response = DBLocations::getAllLocationsInProposals($this->search_value);
+		echo json_encode($response);
+	}
 
 	public function deviceFilter () {
-		$response = DBDevices::getFilteredDevicesCharge($this->search_value);
+		$response = DBDevices::getFilteredDevicesForLocationChange($this->search_value);
+		echo json_encode($response);
+	}
+
+	public function devicesInStorageFilter () {
+		$response = DBDevices::getFilteredDevicesForCharge($this->search_value);
+		echo json_encode($response);
+	}
+
+	public function devicesInLanusFilter () {
+		$response = DBDevices::getFilteredDevicesInLanus($this->search_value);
+		echo json_encode($response);
+	}
+
+	public function devicesOnOtherLocationsFilter () {
+		$response = DBDevices::getFilteredDevicesOnOtherLocations($this->search_value);
+		echo json_encode($response);
+	}
+
+	public function devicesInServiceFilter () {
+		$response = DBDevices::getFilteredDevicesInService($this->search_value);
 		echo json_encode($response);
 	}
 // for filter and pagination

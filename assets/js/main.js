@@ -16,6 +16,9 @@ window.onload = function() {
     // *************************************************************************************************
 	// forms submit validation
     if (window.location.pathname == '/terminals/Storage/index'
+    	|| window.location.pathname == '/terminals/Storage/panel'
+    	|| window.location.pathname == '/terminals/Storage/locations'
+    	|| window.location.pathname == '/terminals/Service/index'
     	|| window.location.pathname == '/terminals/SIMs/panel'
     	|| window.location.pathname == '/terminals/Admin/index'
     	|| window.location.pathname == '/terminals/Devices/panel'
@@ -25,41 +28,11 @@ window.onload = function() {
     	var frmvalidator = new Validator($('form'));
 
     	// add validation rules on fields
-    	// make new charge fields validation rules
-    	frmvalidator.addValidation('location', ['selectRequired']);
+    	// storage pages validation rules
+    	frmvalidator.addValidation('location_for_charge', ['selectRequired']);
     	frmvalidator.addValidation('device_sn', ['req', 'proposalValidation']);
-
-
-
-    	// frmvalidator.addValidation('terminal', ['proposalValidation']);
-    	// frmvalidator.addValidation('sim_for_charge', ['proposalValidation']);
-    	// frmvalidator.addValidation('imei', ['proposalValidation']);
-
-    	// // add new_terminal fields validation rules
-    	// frmvalidator.addValidation('terminal_num', ['req', 'proposalValidation']);
-    	// frmvalidator.addValidation('pda', ['req', 'proposalValidation']);
-    	// frmvalidator.addValidation('printer', ['req', 'proposalValidation']);
-    	// frmvalidator.addValidation('pda_sim_for_new_terminal', ['req', 'proposalValidation']);
-
-    	// // add new_sim fields validation rules
-    	// frmvalidator.addValidation('network', ['req', 'minLength=2', 'maxLength=2']);
-    	// frmvalidator.addValidation('number', ['req', 'minLength=6', 'maxLength=7']);
-    	// frmvalidator.addValidation('iccid', ['req']);
-    	// frmvalidator.addValidation('purpose', ['req']);
-
-    	// // add new_phone fields validation rules
-    	// frmvalidator.addValidation('new_phone_imei', ['req']);
-    	// frmvalidator.addValidation('new_model', ['req']);
-
-    	// // add new_user fields validation rules
-    	// frmvalidator.addValidation('username', ['req', 'minLength=3', 'maxLength=20']);
-    	// frmvalidator.addValidation('password', ['req', 'passConfirm=#co_password']);
-    	// frmvalidator.addValidation('co_password', ['req', 'passConfirm=#password']);
-
-    	// // add switch terminals validation rules
-    	// frmvalidator.addValidation('new_terminal', ['req', 'proposalValidation']);
-
-    	// 
+    	frmvalidator.addValidation('location', ['req', 'proposalValidation']);
+    	frmvalidator.addValidation('new_location', ['req', 'minLength=3']);
 
 		new FormSubmit(frmvalidator);
 		
@@ -73,7 +46,7 @@ window.onload = function() {
 	}
 	// ***********************************************************************************************
 	// if page url is charge view prepare charge form
-	if (url_part[0] == 'Storage'  && url_part[1] == 'index') {
+	if (url_part[0] == 'Storage'  && (url_part[1] == 'index' || url_part[1] == 'panel')) {
 		new Charge();
 	}
 	// ***********************************************************************************************
@@ -85,12 +58,12 @@ window.onload = function() {
 	}
 	// **********************************************************************************************
 	// for SERVICE PAGE
-	if (url_part[0] == 'Service' && url_part[1] == 'panel') {
+	if (url_part[0] == 'Service' && url_part[1] == 'index') {
 		new Switch();
-		$('.service_action_links').on('click', function(e){
-			e.preventDefault();
-			$('.service_action_divs').addClass('d-none');
-			$('#'+$(this).attr('id')+'_div').removeClass('d-none');
-		})
+		// $('.service_action_links').on('click', function(e){
+		// 	e.preventDefault();
+		// 	$('.service_action_divs').addClass('d-none');
+		// 	$('#'+$(this).attr('id')+'_div').removeClass('d-none');
+		// })
 	}
 }

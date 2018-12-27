@@ -2,13 +2,26 @@
 
 class DBDevices extends DB {
 	public static function getAllDevices ($skip) {
-		$sql = "select d.*, t.title as type, l.title as location, (select count(*) from devices) as total from devices as d 
+		$sql = "select d.*, 
+		t.title as type, 
+		l.title as location, 
+		dis.title as distributor, 
+		m.title as model, 
+		(select count(*) from devices) as total from devices as d 
 		join types as t 
 		on t.id = d.type_id 
 		left join devices_locations as dl 
 		on dl.device_id = d.id and dl.id = (select max(id) from devices_locations where device_id = d.id)
 		left join locations as l 
 		on l.id = dl.location_id 
+		left join locations_distributors as ld 
+		on ld.location_id = l.id 
+		left join distributors as dis 
+		on dis.id = ld.distributor_id 
+		left join devices_models as dm 
+		on dm.device_id = d.id 
+		left join models as m 
+		on m.id = dm.model_id 
 
 		order by sn limit " .PG_RESULTS. "offset $skip";
 		return self::queryAndFetchInObj($sql);
@@ -48,47 +61,29 @@ class DBDevices extends DB {
 	// 	where d.id = $id";
 	// 	return self::queryAndFetchInObj($sql);
 	// }
-	// public static function getFilteredPDA ($cond) {
-	// 	$sql = "select d.sn  as ajax_data from devices as d 
-	// 	join devices_types as dt 
-	// 	on dt.id = d.device_type_id 
-	// 	left join terminals as t 
-	// 	on d.id = t.pda_id 
-	// 	left join devices_locations as dl 
-	// 	on d.id = dl.device_id 
-	// 	left join locations as l 
-	// 	on dl.location_id = l.id 
-	// 	left join devices_writes_off as dwo 
-	// 	on dwo.device_id = d.id 
-	// 	left join terminals_disassembled as td 
-	// 	on td.terminal_id = t.id 
-	// 	where (t.pda_id is null or td.id is not null) and l.title = 'magacin' and dt.title = 'pda' and dwo.id is null and lower(cast(d.sn as character varying(30))) like lower('%$cond%') order by d.id limit 6";
-	// 	return self::queryAndFetchInObj($sql);
-	// }
-	// public static function getFilteredPrinter ($cond) {
-	// 	$sql = "select d.sn  as ajax_data from devices as d 
-	// 	join devices_types as dt 
-	// 	on dt.id = d.device_type_id 
-	// 	left join terminals as t 
-	// 	on d.id = t.pda_id or  d.id = t.printer_id 
-	// 	left join devices_locations as dl 
-	// 	on d.id = dl.device_id 
-	// 	left join locations as l 
-	// 	on dl.location_id = l.id 
-	// 	left join devices_writes_off as dwo 
-	// 	on dwo.device_id = d.id 
-	// 	left join terminals_disassembled as td 
-	// 	on td.terminal_id = t.id 
-	// 	where (t.printer_id is null or td.id is not null) and l.title = 'magacin' and dt.title = 'printer' and dwo.id is null and lower(cast(d.sn as character varying(30))) like lower('%$cond%') order by d.id limit 6";
-	// 	return self::queryAndFetchInObj($sql);
-	// }
+	public static function getAllDevicesInLanus () {
+		$sql = "select * from devices as d 
+		left join devices_locations as dl 
+		on dl.device_id = d.id and dl.id = (select max(id) from devices_locations where device_id = d.id) 
+		where dl.location_id = 4";
+		return self::queryAndFetchInObj($sql);
+	}
+	public static function getAllDevicesInService () {
+		$sql = "select * from devices as d 
+		left join devices_locations as dl 
+		on dl.device_id = d.id and dl.id = (select max(id) from devices_locations where device_id = d.id) 
+		where dl.location_id = 3";
+		return self::queryAndFetchInObj($sql);
+	}
 	public static function getFilteredDevices ($cond_name, $cond, $skip, $sql_addon) {
 		$sql = "select d.sn, d.id, 
+		m.title as model, 
 		l.title as location, 
+		dis.title as distributor, 
 		t.title as type, 
 		(select count(*) from devices as d 
 		where 
-		d.sn like '%$cond%'" . $sql_addon . ") 
+		(d.sn like '%$cond%' or lower(l.title) like lower('%$cond%'))" . $sql_addon . ") 
 		as total 
 		from devices as d 
 		join types as t 
@@ -99,25 +94,79 @@ class DBDevices extends DB {
 		left join locations as l 
 		on l.id = dl.location_id 
 
-		where d.sn like '%$cond%'" . 
+		left join locations_distributors as ld 
+		on ld.location_id = l.id 
+		left join distributors as dis 
+		on dis.id = ld.distributor_id 
+
+		left join devices_models as dm 
+		on dm.device_id = d.id 
+		left join models as m 
+		on m.id = dm.model_id 
+
+		where (d.sn like '%$cond%' or lower(l.title) like lower('%$cond%'))" . 
 		$sql_addon
 		. "	order by d.sn limit " .PG_RESULTS. " offset $skip";
-		// var_dump($sql_addon);die;
 		return self::queryAndFetchInObj($sql);
 	}
 
-	public static function getFilteredDevicesCharge ($cond) {
-		$sql = "select id, sn as ajax_data from devices
+
+	// FILTERED DATA FOR PROPOSALS *******************************************************
+	public static function getFilteredDevicesForLocationChange ($cond) {
+		$sql = "select id, sn as ajax_data from devices  
 		where sn like '%$cond%' 
 		limit 6
 		";
 		return self::queryAndFetchInObj($sql);
 	}
 
-	// public static function changeDeviceLocation ($location_id, $device_id) {
-	// 	$sql = "update devices_locations set location_id = $location_id where device_id = $device_id";
-	// 	return self::executeSQL($sql);
-	// }
+	public static function getFilteredDevicesForCharge ($cond) {
+		$sql = "select d.id, d.sn as ajax_data from devices as d 
+		left join devices_locations as dl 
+		on dl.device_id = d.id and dl.id = (select max(id) from devices_locations where device_id = d.id)  
+		where sn like '%$cond%' and dl.location_id = 2 
+		limit 6
+		";
+		return self::queryAndFetchInObj($sql);
+	}
+
+	public static function getFilteredDevicesInLanus ($cond) {
+		$sql = "select d.id, d.sn as ajax_data from devices as d 
+		left join devices_locations as dl 
+		on dl.device_id = d.id and dl.id = (select max(id) from devices_locations where device_id = d.id)  
+		where sn like '%$cond%' and dl.location_id = 4 
+		limit 6
+		";
+		return self::queryAndFetchInObj($sql);
+	}
+
+	public static function getFilteredDevicesOnOtherLocations ($cond) {
+		$sql = "select d.id, l.title as location, d.sn as ajax_data from devices as d 
+		left join devices_locations as dl 
+		on dl.device_id = d.id and dl.id = (select max(id) from devices_locations where device_id = d.id) 
+		left join locations as l 
+		on l.id = dl.location_id 
+		where sn like '%$cond%' and l.priority = 2  
+		limit 6
+		";
+		return self::queryAndFetchInObj($sql);
+	}
+
+	public static function getFilteredDevicesInService ($cond) {
+		$sql = "select d.id, d.sn as ajax_data from devices as d 
+		left join devices_locations as dl 
+		on dl.device_id = d.id and dl.id = (select max(id) from devices_locations where device_id = d.id)  
+		where sn like '%$cond%' and dl.location_id = 3 
+		limit 6
+		";
+		return self::queryAndFetchInObj($sql);
+	}
+	// *************************************************************************************
+
+	public static function changeDeviceLocation ($location_id, $device_id) {
+		$sql = "insert into devices_locations values(default,$device_id,$location_id,".$_SESSION['user_id'].",default)";
+		return self::executeSQL($sql);
+	}
 	// public static function countAllPDA () {
 	// 	$sql = "select count(*) as pda_num from devices as d 
 	// 	left join devices_writes_off as dwo 
@@ -204,24 +253,28 @@ class DBDevices extends DB {
 
 
 
-
 // select d.sn, d.id, 
+// 		l.title as location, 
+// 		dis.title as distributor, 
 // 		t.title as type, 
-
 // 		(select count(*) from devices as d 
-
-		
-
 // 		where 
-// 		d.sn like '%%')
+// 		(d.sn like '%%' or lower(l.title) like lower('%%')) and cast(t.id as text) = '1' ) 
 // 		as total 
-
-
-
 // 		from devices as d 
-
-
 // 		join types as t 
-// 		on t.id = d.type_id
+// 		on t.id = d.type_id 
 
-// 		where d.sn like '%%' order by d.sn limit 10 offset 1
+// 		left join devices_locations as dl 
+// 		on dl.device_id = d.id and dl.id = (select max(id) from devices_locations where device_id = d.id)
+// 		left join locations as l 
+// 		on l.id = dl.location_id 
+
+// 		left join locations_distributors as ld 
+// 		on ld.location_id = l.id 
+// 		left join distributors as dis 
+// 		on dis.id = ld.distributor_id 
+
+// 		where d.sn like '%%' or lower(l.title) like lower('%%') 
+// 		and cast(t.id as text) = '1'
+// 		order by d.sn limit 5 offset 0

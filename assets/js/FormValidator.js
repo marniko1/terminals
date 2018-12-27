@@ -68,7 +68,6 @@ class Validator {
 						self.errMsg = self.createErrMsg(rule);
 						// if checkboxes are valid
 						if (self[rule](field)) {
-							console.log(self.checkboxes_wrapper_list_with_err);
 							var checkbox_wrapper = $('.checkbox-wrapper').has(field);
 							$.each(self.checkboxes_wrapper_list_with_err, function(k, v){
 								if ($(v).is(checkbox_wrapper)) {
@@ -91,8 +90,6 @@ class Validator {
 						$(wrapper).addClass('err-border');
 						// console.log(self.errMsg);
 						if ($(wrapper).find('div.genres-scroll').next('span.text-danger').length == 0) {
-							console.log($(wrapper));
-						console.log($(wrapper).find('div.genres-scroll'));
 							$(wrapper).find('div.genres-scroll').after('<span class="val text-danger position-absolute mt-1"><small>' + self.errMsg + '</small></span>');
 						}
 					});
