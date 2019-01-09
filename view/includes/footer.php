@@ -11,7 +11,7 @@
 		  		}
 		  	}
 		  	var pagination_link = location.pathname.split('/')[3];
-		  	if (pagination_link == 'index') {
+		  	if (pagination_link == 'index' || pagination_link == 'history') {
 		  		var pg_active = $('.pagination li a')[2];
 		  		$(pg_active).parent('li').addClass('active');
 		  	}

@@ -41,7 +41,7 @@ class ShowProposals {
 								} else if (fn == 'device' || fn == 'devicesInStorage' || fn == 'devicesInLanus' || fn == 'devicesInService') {
 									div_html += `<li class="pl-1" data-device_id="${response[i].id}">${response[i].ajax_data}</li>`;
 								} else if (fn == 'devicesOnOtherLocations') {
-									div_html += `<li class="pl-1" data-device_id="${response[i].id}" data-location="${response[i].location}">${response[i].ajax_data}</li>`;
+									div_html += `<li class="pl-1" data-device_id="${response[i].id}" data-location="${response[i].location}" data-location_id="${response[i].location_id}">${response[i].ajax_data}</li>`;
 								} else {
 									div_html += `<li class="pl-1">${response[i].ajax_data}</li>`;
 								}
@@ -69,6 +69,7 @@ class ShowProposals {
 							
 							$(ul).html(div_html);
 							jQuery('.proposals li').on('click', function(e){
+								self.in = false;
 								var text = $(this).text();
 								$(self).val(text);
 								$(self).focus();
@@ -77,12 +78,13 @@ class ShowProposals {
 								$(this).parents('.mt-5').find('.proposals').addClass('d-none');
 								// *****************************
 								if (fn == 'device' || fn == 'devicesInStorage' || fn == 'devicesInLanus') {
-									$(self).parents().find('#device_id').val($(this).data('device_id'));
+									$(self).parent().find('input[type=hidden]').val($(this).data('device_id'));
 								} else if (fn == 'location') {
 									$(self).parents().find('#location_id').val($(this).data('location_id'));
 								} else if (fn == 'devicesOnOtherLocations') {
 									$(self).parents().find('#old_device_id').val($(this).data('device_id'));
-									$(self).parents().find('#location').val($(this).data('location'));
+									$(self).parents().find('#location_info').val($(this).data('location'));
+									$(self).parents().find('#location_id').val($(this).data('location_id'));
 								} else if (fn == 'devicesInService') {
 									$(self).parents().find('#new_device_id').val($(this).data('device_id'));
 								}

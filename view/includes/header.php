@@ -6,10 +6,11 @@
 		<link rel="shortcut icon" href="<?php  echo INCL_PATH.'assets/images/terminal.ico'?>">
 		<link rel="stylesheet" type="text/css" href="<?php  echo INCL_PATH.'assets/css/bootstrap.css'?>">
 		<link rel="stylesheet" type="text/css" href="<?php  echo INCL_PATH.'assets/css/main.css'?>">
+		<link rel="stylesheet" type="text/css" href="<?php  echo INCL_PATH.'assets/css/delivery_note.css'?>">
 		<script type="text/javascript" src="<?php  echo INCL_PATH.'config/js_path/path.js'?>"></script>
 		<script type="text/javascript" src="<?php  echo INCL_PATH.'assets/js/jquery-3.3.1.js'?>"></script>
 		<script type="text/javascript" src="<?php  echo INCL_PATH.'assets/js/bootstrap.js'?>"></script>
-		<script type="text/javascript" src="<?php  echo INCL_PATH.'assets/js/TerminalSwitch.class.js'?>"></script>
+		<script type="text/javascript" src="<?php  echo INCL_PATH.'assets/js/DeviceSwitch.class.js'?>"></script>
 		<script type="text/javascript" src="<?php  echo INCL_PATH.'assets/js/FormSubmit.js'?>"></script>
 		<script type="text/javascript" src="<?php  echo INCL_PATH.'assets/js/ShowProposals.js'?>"></script>
 		<script type="text/javascript" src="<?php  echo INCL_PATH.'assets/js/AjaxFilterAndPagination.js'?>"></script>

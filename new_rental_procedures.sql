@@ -149,6 +149,20 @@ LANGUAGE plpgsql;
 
 ----------------------------------------------------------------------------------------------------------------------
 
+create or replace function SWITCH_DEVICES (_old_device_id integer, _locations_id integer, _new_device_id integer, _malfunction_id integer, _repairer_id integer, _comment character varying(255), _user_id integer, _action_type_id integer)
+returns void as
+$$
+	BEGIN
+	
+	insert into devices_locations values (default, _old_device_id, 4, _user_id, default);
+	insert into devices_locations values (default, _new_device_id, _locations_id, _user_id, default);
+	insert into malfunctions_history values (default, _old_device_id, _locations_id, _malfunction_id, _comment, _action_type_id, _repairer_id, _user_id, default);
+
+	END;
+$$
+LANGUAGE plpgsql;
+
+----------------------------------------------------------------------------------------------------------------------
 select insert_new_terminal(44003, '117000009399', 'PMA005921UN16', '89381030000 23241515');
 
 select MAKE_NEW_CHARGE('Aleksandar Avramović', 98510, 44001, 0, '', 1);

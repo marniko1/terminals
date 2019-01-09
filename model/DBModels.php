@@ -5,10 +5,6 @@ class DBModels extends DB {
 		$sql = "select * from models";
 		return self::queryAndFetchInObj($sql);
 	}
-	public static function getAllPhonesModels () {
-		$sql = "select * from models where purpose = 'phone'";
-		return self::queryAndFetchInObj($sql);
-	}
 	public static function addNewModel ($model, $purpose) {
 		$sql = "insert into models values (default, '$model', '$purpose')";
 		$req = self::executeSQL($sql);

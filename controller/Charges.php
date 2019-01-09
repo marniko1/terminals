@@ -20,6 +20,6 @@ class Charges extends BaseController {
 		}
 		$sql_values = rtrim($sql_values, ',');
 		DBCharges::makeNewCharge($sql_values);
-		header("Location: " . INCL_PATH . "Storage/panel");
+		header("Location: " . INCL_PATH . "Storage/index");
 	}
 }

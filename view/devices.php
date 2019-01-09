@@ -24,19 +24,6 @@
 					        	
 					      	</select>
 					    </div>
-					    <div class="form-group form-group-inline col-2">
-					      	<select id="software_v" class="form-control" name="software_v">
-					        	<option value="">Software v...</option>
-					        	
-					      	</select>
-					    </div>
-					    <div class="form-group form-group-inline col-2">
-					      	<select id="active" class="form-control" name="active">
-					        	<option value="">Status...</option>
-					        	<option value="1">aktivni</option>
-					        	<option value="2">otpisan</option>
-					      	</select>
-					    </div>
 					</div>
 				</form>
 				<div  class="table-holder" style="min-height: 450px; width:100%">
@@ -49,8 +36,6 @@
 					      	<th scope="col" style="width: auto;">Lokacija</th>
 					      	<th scope="col" style="width: auto;">Distributor</th>
 					      	<th scope="col" style="width: auto;">Tip</th>
-					      	<!-- <th scope="col" style="width: auto;">Software v.</th> -->
-					      	<!-- <th scope="col" style="width: auto;">Otpisan</th> -->
 						</thead>
 						<tbody class="tbody">
 						<?php if ($this->data['devices'][0]->sn != null):

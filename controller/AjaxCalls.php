@@ -89,12 +89,12 @@ class AjaxCalls extends BaseController {
 	}
 // for filter and pagination
 
-	// public function terminalsFilter () {
-	// 	$this->params = json_decode($_POST['params']);
-	// 	$sql_addon = $this->makeAdditionalConditionsStringSQL($this->params);
-	// 	$filtered_data = DBTerminals::getFilteredTerminals('terminal', $this->search_value, $this->skip, $sql_addon);
-	// 	$this->ajaxResponse($filtered_data);
-	// }
+	public function serviceFilter () {
+		$this->params = json_decode($_POST['params']);
+		$sql_addon = $this->makeAdditionalConditionsStringSQL($this->params);
+		$filtered_data = DBMalfunctions::getFilteredMalfunctionHistory('malfunctions', $this->search_value, $this->skip, $sql_addon);
+		$this->ajaxResponse($filtered_data);
+	}
 
 	public function devicesFilter () {
 		$this->params = json_decode($_POST['params']);

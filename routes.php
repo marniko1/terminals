@@ -7,7 +7,7 @@ if (Auth::logged()) {
 
 	Route::get('/Devices/index', 'Devices@index');
 	// Route::get('/Devices/panel', 'Devices@showPageNumTwo');
-	// Route::get('/Devices/{id}', 'Devices@showSingleDevice', $req = ['/^\d+$/']);
+	Route::get('/Devices/{id}', 'Devices@showSingleDevice', $req = ['/^\d+$/']);
 	// Route::get('/Devices/{page}', 'Devices@index', $req = ['/^p\d+$/']);
 	Route::post('/Devices/changeDeviceLocation', 'Devices@changeDeviceLocation');
 
@@ -32,9 +32,10 @@ if (Auth::logged()) {
 	// Route::post('/Models/addNewModel', 'Models@addNewModel');
 
 	Route::get('/Service/index', 'Service@index');
-	Route::get('/Service/history', 'Service@malHistory');
-	Route::get('/Service/administration', 'Service@administration');
-	// Route::get('/Service/switchTerminals', 'Service@switchTerminals');
+	Route::get('/Service/other', 'Service@showOtherServiceActionsPage');
+	Route::get('/Service/history', 'Service@showMalHistory');
+	Route::get('/Service/administration', 'Service@showServiceAdministrationPage');
+	Route::post('/Service/switchDevices', 'Service@switchDevices');
 
 	if (Auth::admin()) {
 		Route::get('/Admin/index', 'Admin@index');
