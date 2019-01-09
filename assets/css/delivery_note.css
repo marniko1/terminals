@@ -1,8 +1,14 @@
+#delivery_note{
+	box-shadow: 0 0 3px lightgrey;
+}
 .company_data{
 	font-size: 11px;
 }
 .company_data p{
 	margin-bottom: 0;
+}
+.headline {
+	letter-spacing: 5px;
 }
 .delivery_note_footer div p {
 	margin-bottom: 0;

@@ -11,6 +11,7 @@
 						<div class="form-group ml-2">
 							<label for="location">Lokacija: </label>
 							<input type="text" class="proposal-input form-control" id="location">
+							<input type="hidden" name="location_id" id="location_id">
 							<div class="proposals d-none">
 								<ul class="mb-0 pl-0"></ul>
 							</div>
@@ -18,12 +19,11 @@
 						<div class="form-group ml-2">
 							<label for="device">Serijski broj uređaja: </label>
 							<input type="text" class="proposal-input form-control" id="device_sn">
+							<input type="hidden" name="device_id" id="device_id">
 							<div class="proposals d-none">
 								<ul class="mb-0 pl-0"></ul>
 							</div>
 						</div>
-						<input type="hidden" name="location_id" id="location_id" value="1">
-						<input type="hidden" name="device_id" id="device_id" value="2">
 						<input type="submit" value="Potvrdi" class="btn btn-primary btn-sm ml-2 submit_btn">
 						<input type="reset" value="Reset" class="btn btn-light btn-sm ml-2">
 					</form>

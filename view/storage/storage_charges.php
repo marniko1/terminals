@@ -22,7 +22,7 @@
 						<div class="form-group ml-2 device_sn_div row">
 							<label for="device_sn" class="col-form-label col-7 pr-0 pl-0">Ser. br. uređaja u magacinu: </label>
 							<input type="text" class="proposal-input device_sn form-control col-3" name="device_sn" id="device_sn">
-							<input type="hidden" class="device_sn device_sn_hidden" name="device_sn" id="device_id">
+							<input type="hidden" class="device_sn_hidden" name="device_sn" id="device_id">
 							<div class="proposals d-none">
 								<ul class="mb-0 pl-0"></ul>
 							</div>
