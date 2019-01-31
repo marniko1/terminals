@@ -8,7 +8,9 @@
 	      <li class="nav-item"><a href="<?php echo INCL_PATH . 'Devices/index'; ?>"  class="nav-link">Uređaji</a></li>
 	      <li class="nav-item"><a href="<?php echo INCL_PATH  . 'SIMs/index'; ?>"  class="nav-link">SIM</a></li>
 	      <li class="nav-item"><a href="<?php echo INCL_PATH  . 'Storage/index'; ?>"  class="nav-link">Magacin</a></li>
-	      <li class="nav-item"><a href="<?php echo INCL_PATH  . 'Service/index'; ?>"  class="nav-link">Servis</a></li>
+	      <?php 
+	      echo (Auth::admin() || Auth::service()) ? '<li class="nav-item"><a href="'.INCL_PATH.'Service/index" class="nav-link">Servis</a></li>' : false 
+	      ?>
 	      <?php 
 	      echo (Auth::admin()) ? '<li class="nav-item"><a href="'.INCL_PATH.'Admin/index" class="nav-link">Admin</a></li>' : false 
 	      ?>

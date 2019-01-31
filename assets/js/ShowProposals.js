@@ -20,10 +20,14 @@ class ShowProposals {
 					var fn = 'devicesInLanus';
 				} else if (label_text == 'Lokacija: ') {
 					var fn = 'location';
-				} else if (label_text == 'Stari - Ser.br.: ') {
+				} else if (label_text == 'Stari - Ser.br.: ' || label_text == 'Ser.br.uređaja: ') {
 					var fn = 'devicesOnOtherLocations';
 				} else if (label_text == 'Novi - Ser.br.: ') {
 					var fn = 'devicesInService';
+				} else if (label_text == 'ICCID: ') {
+					var fn = 'SIM';
+				} else if (label_text == 'Terminal: ') {
+					var fn = 'terminal';
 				}
 				
 				setTimeout(function(){
@@ -38,7 +42,7 @@ class ShowProposals {
 								// adding id if proposals are for devices or locations
 								if (fn == 'location') {
 									div_html += `<li class="pl-1" data-location_id="${response[i].id}">${response[i].ajax_data}</li>`;
-								} else if (fn == 'device' || fn == 'devicesInStorage' || fn == 'devicesInLanus' || fn == 'devicesInService') {
+								} else if (fn == 'device' || fn == 'devicesInStorage' || fn == 'devicesInLanus' || fn == 'devicesInService' || fn == 'terminal' || fn == 'SIM') {
 									div_html += `<li class="pl-1" data-device_id="${response[i].id}">${response[i].ajax_data}</li>`;
 								} else if (fn == 'devicesOnOtherLocations') {
 									div_html += `<li class="pl-1" data-device_id="${response[i].id}" data-location="${response[i].location}" data-location_id="${response[i].location_id}">${response[i].ajax_data}</li>`;
@@ -54,9 +58,9 @@ class ShowProposals {
 								};
 							});
 							if (!input_text) {
-								$(self).attr('data-validate', 'false');
+								$(self).attr('data-validate', false);
 							} else {
-								$(self).attr('data-validate', 'true');
+								$(self).attr('data-validate', true);
 							}
 							// ***************************************************
 
@@ -74,10 +78,10 @@ class ShowProposals {
 								$(self).val(text);
 								$(self).focus();
 								// set that input is valid
-								$(self).attr('data-validate', 'true');
+								$(self).attr('data-validate', true);
 								$(this).parents('.mt-5').find('.proposals').addClass('d-none');
 								// *****************************
-								if (fn == 'device' || fn == 'devicesInStorage' || fn == 'devicesInLanus') {
+								if (fn == 'device' || fn == 'devicesInStorage' || fn == 'devicesInLanus' || fn == 'terminal' || fn == 'SIM') {
 									$(self).parent().find('input[type=hidden]').val($(this).data('device_id'));
 								} else if (fn == 'location') {
 									$(self).parents().find('#location_id').val($(this).data('location_id'));
@@ -85,6 +89,8 @@ class ShowProposals {
 									$(self).parents().find('#old_device_id').val($(this).data('device_id'));
 									$(self).parents().find('#location_info').val($(this).data('location'));
 									$(self).parents().find('#location_id').val($(this).data('location_id'));
+									// *******************************************************
+									$(self).parents().find('#device_id').val($(this).data('device_id'));
 								} else if (fn == 'devicesInService') {
 									$(self).parents().find('#new_device_id').val($(this).data('device_id'));
 								}

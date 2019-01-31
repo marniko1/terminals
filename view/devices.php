@@ -1,7 +1,6 @@
 		<div class="container">
 			<div class="row">
-				<h1>LISTA SVIH QPROX I TERMINAL UREĐAJA</h1>
-				<form class="mt-2 col-12 mb-5">
+				<form class="mt-5 col-12 mb-5">
 					<div class="form-group">
 						<input type="text" name="filter" placeholder="Filter" id="filter">
 					</div>
@@ -21,7 +20,25 @@
 						<div class="form-group form-group-inline col-2">
 					      	<select id="model" class="form-control" name="model">
 					        	<option value="">Model...</option>
-					        	
+					        	<?php
+					        	foreach ($this->data['models'] as $model) {
+					        	?>
+					        	<option value="<?php echo $model->id; ?>"><?php echo $model->title; ?></option>
+					        	<?php
+					        	}
+					        	?>
+					      	</select>
+					    </div>
+					    <div class="form-group form-group-inline col-2">
+					      	<select id="software" class="form-control" name="software">
+					        	<option value="">Software...</option>
+					        	<?php
+					        	foreach ($this->data['softwares'] as $software) {
+					        	?>
+					        	<option value="<?php echo $software->id; ?>"><?php echo $software->title; ?></option>
+					        	<?php
+					        	}
+					        	?>
 					      	</select>
 					    </div>
 					</div>
@@ -33,8 +50,9 @@
 							<th scope="col" style="width: auto;">#</th>
 						    <th scope="col" style="width: auto;">Serijski broj</th>
 						    <th scope="col" style="width: auto;">Model</th>
+						    <th scope="col" style="width: auto;">Software</th>
 					      	<th scope="col" style="width: auto;">Lokacija</th>
-					      	<th scope="col" style="width: auto;">Distributor</th>
+					      	<th scope="col" style="width: auto;">Distributer</th>
 					      	<th scope="col" style="width: auto;">Tip</th>
 						</thead>
 						<tbody class="tbody">
@@ -45,6 +63,7 @@
 							<th scope="row"><?php echo $key + 1 + $this->skip; ?></th>
 							<td><?php echo $this->data['devices'][$key]->sn; ?></td>
 							<td><?php echo $this->data['devices'][$key]->model; ?></td>
+							<td><?php echo $this->data['devices'][$key]->software; ?></td>
 							<td><?php echo $this->data['devices'][$key]->location; ?></td>
 							<td><?php echo $this->data['devices'][$key]->distributor; ?></td>
 							<td><?php echo $this->data['devices'][$key]->type; ?></td>

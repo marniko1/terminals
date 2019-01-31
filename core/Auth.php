@@ -16,4 +16,11 @@ class Auth {
 		}
 		return false;
 	}
+
+	public static function service() {
+		if ($_SESSION['priviledge'] == 'service') {
+			return true;
+		}
+		return false;
+	}
 }

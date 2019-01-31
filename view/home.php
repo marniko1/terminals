@@ -1,6 +1,8 @@
 		<div class="container">
 			<div class="row">
-				<h1>HOME PAGE</h1>
-				<?php
-				var_dump($_SESSION);
-				?>
+				<div class="col-6 mt-5">
+					<canvas id="terminals_chart"></canvas>
+				</div>
+				<div class="col-6 mt-5">
+					<canvas id="qprox_chart"></canvas>
+				</div>

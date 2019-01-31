@@ -12,14 +12,12 @@ class Devices extends BaseController {
 		}
 		$this->data['devices'] = DBDevices::getAllDevices($this->skip);
 		$this->data['types'] = DBTypes::getAllTypes();
+		$this->data['models'] = DBModels::getAllDevicesModels();
+		$this->data['softwares'] = DBSoftware::getAllSoftwares();
 		$total_devices_num = $this->data['devices'][0]->total;
 		$this->data['pagination_links'] = $this->preparePaginationLinks($total_devices_num, $pg);
 		$this->show_view('devices');
 	}
-	// public function showPageNumTwo() {
-	// 	$this->data['locations'] = DBLocations::getAllLocations();
-	// 	$this->show_view('devices_locations');
-	// }
 	public function showSingleDevice ($id) {
 		$this->data['device'] = DBDevices::getSingleDevice($id);
 		$this->show_view('device');
@@ -33,5 +31,15 @@ class Devices extends BaseController {
 			Msg::createMessage("msg1", "Unsuccess.");
 		}
 		header("Location: ".INCL_PATH."Storage/locations");
+	}
+	public function addNewDevice ($type_id, $model_id = 0, $sn) {
+		$req = DBDevices::insertNewDevice(intval($type_id), intval($model_id), $sn);
+		if ($req) {
+		// if (false) {
+			Msg::createMessage("msg1", "Success.");
+		} else {
+			Msg::createMessage("msg1", "Unsuccess.");
+		}
+		header("Location: ".INCL_PATH."Storage/device");
 	}
 }

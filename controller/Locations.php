@@ -1,8 +1,8 @@
 <?php
 
 class Locations extends BaseController {
-	public function addNewLocation ($location, $priority) {
-		$req = DBLocations::addNewLocation($location, $priority);
+	public function addNewLocation ($location, $priority, $distributor_id = 0) {
+		$req = DBLocations::addNewLocation($location, intval($priority), intval($distributor_id));
 		if ($req) {
 		// if (false) {
 			Msg::createMessage("msg1", "Success.");

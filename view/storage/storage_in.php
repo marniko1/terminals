@@ -3,7 +3,6 @@
 				<?php
 				include "includes/storage_navigation.php";
 				?>
-				<h1 class="col-12">PRIJEM UREĐAJA IZ LANUSA</h1>
 				<fieldset  class="customLegend row col-6" style="height: min-content;">
 					<legend>Prijem uređaja iz Lanusa</legend>
 					<form class="form mt-5 col-12" method="post" action="<?php echo INCL_PATH.'Charges/makeCharge'; ?>">
@@ -42,7 +41,7 @@
 						<?php
 						}
 						else: ?>
-						<tr><td colspan="6">Nema napravljenih uređaja.</td></tr>
+						<tr><td colspan="6">Nema uređaja.</td></tr>
 						<?php endif ?>
 						</tbody>
 					</table>

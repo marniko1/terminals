@@ -17,8 +17,8 @@ class DBUsers extends DB {
 		$res = self::executeSQL($sql);
 		return self::queryAndFetchInObj($sql);
 	}
-	public static function addNewUser($username, $password, $priviledge){
-		$sql = "insert into users values (default, '$username', '$password', $priviledge)";
+	public static function addNewUser($username, $password, $priviledge_id){
+		$sql = "insert into users values (default, '$username', '$password', $priviledge_id)";
 		$req = self::executeSQL($sql);
 		return $req;
 	}

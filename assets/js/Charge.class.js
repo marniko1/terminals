@@ -7,6 +7,7 @@ class Charge {
 		this.in;
 		this.isThere;
 		this.num = 1;
+		this.condition_checker;
 		console.log('Charge');
 	}
 	deviceChecker(input) {
@@ -22,12 +23,15 @@ class Charge {
 		      	e.preventDefault();
 		      	self.in = false;
 		      	self.isThere = false;
+		      	// self.condition_checker = true;
 		      	// check if data already in inputs
 		      	self.checkIfDataAlreadyInDeliveryNote(e.target);
 		      	// ****************************************************************************
-		      	// 
-		      	// 
-				self.addNewInput(); // <------------------------- for work on 
+		      	if (self.checkIfDataAlreadyInInputs(this)) {
+					self.addNewInput(this);				// <------------------------- for work on 
+		      	}
+		      		
+		      
 
 				// ****************************************************************************
 				var name = $(this).attr('name');
@@ -54,25 +58,34 @@ class Charge {
 		    }
 		});
 	}
-	addNewInput() {
-		var divs = $('.device_sn_div');
-		var old_div = $(divs)[divs.length-1];
-		var cloned_div = $(old_div).clone();
-		$(cloned_div).find('span').removeClass('d-none');
-		$(cloned_div).find('.device_sn').val('');
-		$(old_div).after($(cloned_div));
-		$(cloned_div).find('.device_sn').focus();
+	addNewInput(input) {
+		this.condition_checker = this.checkConditionsForNewInput(input);
+		if (this.condition_checker) {
+			var divs = $('.device_sn_div');
+			var old_div = $(divs)[divs.length-1];
+			var cloned_div = $(old_div).clone();
+			$(cloned_div).find('span').removeClass('d-none');
+			$(cloned_div).find('.device_sn').val('');
+			$(old_div).after($(cloned_div));
+			$(cloned_div).find('.device_sn').focus();
 
-		// ********** seting names of imputs, adding input num to name *****************
-		var input = $(cloned_div).find('input.device_sn');
-		$(input).attr('name', 'device_sn' + this.num++);
-		// *****************************************************************************
+			// ********** seting names of inputs, adding input num to name *****************
+			var input = $(cloned_div).find('input.device_sn');
+			var hidden_input = $(cloned_div).find('input[type=hidden]');
+			$(input).attr('name', 'device_sn' + this.num++);
+			$(hidden_input).attr('name', $(input).attr('name'));
 
-		new ShowProposals();
+			// *****************************************************************************
+			// ******************** remove attr data from cloned input ******************
+			$(input).removeAttr('data-validate');
+			// *****************************************************************************
 
-		this.addListenerOnChar13($(input));
-		this.addListenerOnChar8($(input));
-		this.deleteInput();
+			new ShowProposals();
+
+			this.addListenerOnChar13($(input));
+			this.addListenerOnChar8($(input));
+			this.deleteInput();
+		}
 	}
 	deleteInput() {
 		var self = this;
@@ -107,6 +120,19 @@ class Charge {
 			}
 		});
 	}
+	// **********************************************
+	checkIfDataAlreadyInInputs(input) {
+		var self = this;
+		var other_inputs = $('.proposal-input').not($(input));
+		var check = true;
+		$.each($(other_inputs), function(key, other_input){
+			if ($(other_input).val() == $(input).val()) {
+				check = false;
+			}
+		});
+		return check;
+	}
+	// ***************************************************
 	checkIfDataAlreadyInDeliveryNote(input) {
 		var self = this;
 		$.each($('#delivery_note tr'), function(key, tr){
@@ -144,7 +170,13 @@ class Charge {
 		}
 	}
 	setNoteNum() {
-		// return $.datepicker.formatDate('ddmmyy', new Date());
+		// this part using jquery-ui-1.12.1
 		$('.delivery_note_num').text('br.' + $.datepicker.formatDate('ddmmyy', new Date()));
+	}
+	checkConditionsForNewInput(input) {
+		if (!$(input).data('validate')) {
+			return false;
+		}
+		return true;
 	}
 }

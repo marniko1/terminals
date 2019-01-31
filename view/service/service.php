@@ -2,9 +2,7 @@
 			<div class="row">
 				<?php
 				include "includes/service_navigation.php";
-				// var_dump($this->data['malfunctions']);
 				?>
-				<h1>ZAMENA UREĐAJA</h1>
 				<div class="col-12 row">
 					<div class="col-7">
 						<form class="mt-5 row border rounded p-2" method="post" action="<?php echo INCL_PATH.'Service/switchDevices'; ?>">
@@ -76,7 +74,7 @@
 							    <th scope="col" style="width: auto;">Serijski broj</th>
 							</thead>
 							<tbody class="tbody">
-								<?php if ($this->data['devices_in_service'][0]->id != null):
+								<?php if (isset($this->data['devices_in_service'][0]->id)):
 								foreach ($this->data['devices_in_service'] as $key => $device) {
 								?>
 								<tr style="cursor: pointer;" onclick="document.location.href='<?php echo INCL_PATH.'Devices/'.$device->id; ?>'">
@@ -86,7 +84,7 @@
 								<?php
 								}
 								else: ?>
-								<tr><td colspan="6">Nema napravljenih uređaja.</td></tr>
+								<tr><td colspan="6">Nema uređaja.</td></tr>
 								<?php endif ?>
 							</tbody>
 						</table>

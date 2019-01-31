@@ -10,7 +10,7 @@
 				      	<th scope="col" style="width: auto;">SIM</th>
 				      	<th scope="col" style="width: auto;">ICCID</th>
 				      	<th scope="col" style="width: auto;">Lokacija</th>
-				      	<th scope="col" style="width: auto;">Distributor</th>
+				      	<th scope="col" style="width: auto;">Distributer</th>
 					</thead>
 					<tbody class="tbody">
 						<tr>

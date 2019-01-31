@@ -1,0 +1,8 @@
+#delivery_note{
+	box-shadow: none;
+	height: 100%;
+	border: 0;
+}
+@page {
+    margin: 0;
+}

@@ -16,11 +16,11 @@
 							<input type="password" name="co_password" id="co_password" class="form-control">
 						</div>
 						<div class="form-group">
-							<input type="radio" name="priviledge" id="priviledge1" class="form-check-input ml-2" value="1" checked>
+							<input type="radio" name="priviledge" id="priviledge1" class="form-check-input ml-2" value="3" checked>
 							<label for="priviledge1" class="form-check-label ml-4">Korisnik</label>
-							<input type="radio" name="priviledge" id="priviledge2" class="form-check-input ml-2" value="2">
+							<input type="radio" name="priviledge" id="priviledge2" class="form-check-input ml-2" value="1">
 							<label for="priviledge2" class="form-check-label ml-4">Admin</label>
-							<input type="radio" name="priviledge" id="priviledge4" class="form-check-input ml-2" value="4">
+							<input type="radio" name="priviledge" id="priviledge4" class="form-check-input ml-2" value="2">
 							<label for="priviledge4" class="form-check-label ml-4">Service</label>
 						</div>
 						<div class="form-group">

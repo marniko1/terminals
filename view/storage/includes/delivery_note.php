@@ -1,4 +1,4 @@
-					<div class="border m-4 shadow bg-white p-5" style="width: 21cm;height: 29.7cm;" id="delivery_note">
+					<div class="bg-white p-5 col-12" style="height: 29.7cm;" id="delivery_note">
 						<h6>APEX SOLUTION TECHNOLOGY DOO</h6>
 						<div class="border-bottom company_data">
 							<p>Makenzijeva 24</p>

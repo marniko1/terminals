@@ -10,18 +10,22 @@ if (Auth::logged()) {
 	Route::get('/Devices/{id}', 'Devices@showSingleDevice', $req = ['/^\d+$/']);
 	// Route::get('/Devices/{page}', 'Devices@index', $req = ['/^p\d+$/']);
 	Route::post('/Devices/changeDeviceLocation', 'Devices@changeDeviceLocation');
+	Route::post('/Devices/addNewDevice', 'Devices@addNewDevice');
 
 	Route::get('/SIMs/index', 'SIMs@index');
-	// Route::get('/SIMs/panel', 'SIMs@showAddNewSimPage');
-	// Route::get('/SIMs/{id}', 'SIMs@showSingleSIM', $req = ['/^\d+$/']);
-	// Route::get('/SIMs/{page}', 'SIMs@index', $req = ['/^p\d+$/']);
-	// Route::post('/SIMs/addNewSIM', 'SIMs@addNewSIM');
+	Route::get('/SIMs/{id}', 'SIMs@showSingleSIM', $req = ['/^\d+$/']);
+	Route::post('/SIMs/putSIMInTerminal', 'SIMs@putSIMInTerminal');
+	Route::post('/SIMs/splitSIMTerminal', 'SIMs@splitSIMTerminal');
+	Route::post('/SIMs/addNewSIM', 'SIMs@addNewSIM');
 
 	Route::post('/Locations/addNewLocation', 'Locations@addNewLocation');
+
+	Route::post('/Distributors/addNewDistributor', 'Distributors@addNewDistributor');
 
 	Route::get('/Storage/index', 'Storage@index');
 	Route::get('/Storage/locations', 'Storage@showLocationsPage');
 	Route::get('/Storage/panel', 'Storage@showDevicesInPage');
+	Route::get('/Storage/device', 'Storage@showDeviceAddingPage');
 
 
 
@@ -30,19 +34,22 @@ if (Auth::logged()) {
 	// Route::post('/Charges/discharge', 'Charges@discharge');
 
 	// Route::post('/Models/addNewModel', 'Models@addNewModel');
-
-	Route::get('/Service/index', 'Service@index');
-	Route::get('/Service/other', 'Service@showOtherServiceActionsPage');
-	Route::get('/Service/history', 'Service@showMalHistory');
-	Route::get('/Service/administration', 'Service@showServiceAdministrationPage');
-	Route::post('/Service/switchDevices', 'Service@switchDevices');
+	if (Auth::admin() || Auth::service()) {
+		Route::get('/Service/index', 'Service@index');
+		Route::get('/Service/other', 'Service@showOtherServiceActionsPage');
+		Route::get('/Service/history', 'Service@showMalHistory');
+		Route::get('/Service/administration', 'Service@showServiceAdministrationPage');
+		Route::post('/Service/switchDevices', 'Service@switchDevices');
+		Route::post('/Service/doOtherActions', 'Service@doOtherActions');
+		Route::post('/Service/serviceAdministration', 'Service@serviceAdministration');
+		Route::post('/Service/serviceSoftwareChange', 'Service@serviceSoftwareChange');
+	}
 
 	if (Auth::admin()) {
 		Route::get('/Admin/index', 'Admin@index');
-		// Route::get('/Admin/panel', 'Admin@showPageNumTwo');
-		// Route::post('/Admin/addNewUser', 'Admin@addNewUser');
+		Route::post('/Admin/addNewUser', 'Admin@addNewUser');
 		// Route::post('/Admin/editUserData', 'Admin@editUserData');
-		// Route::post('/Admin/removeUser', 'Admin@removeUser');
+		Route::post('/Admin/removeUser', 'Admin@removeUser');
 	}
 
 	Route::get('/AjaxCalls/index', 'AjaxCalls@index');

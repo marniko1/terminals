@@ -10,19 +10,19 @@
 							<input type="text" name="filter" placeholder="Filter" id="filter">
 						</div>
 						<div class="row border rounded p-2">
-							<div class="form-group-inline mr-2">
+							<div class="form-group-inline mr-2 params">
 								<label>Od: </label>
-								<input type="date" name="date_from" disabled>
+								<input type="date" name="date_from" id="date_from">
 							</div>
-							<div class="form-group-inline">
+							<div class="form-group-inline params">
 								<label>do: </label>
-								<input type="date" name="date_to" disabled>
+								<input type="date" name="date_to" id="date_to">
 							</div>
 						</div>
 					</div>
 					<div class="mt-2 row params">
 						<div class="form-group form-group-inline col-2">
-					      	<select id="type" class="form-control" name="type" disabled>
+					      	<select id="type" class="form-control" name="type">
 					        	<option value="">Tip...</option>
 					        	<?php
 					        	foreach ($this->data['types'] as $type) {
@@ -34,15 +34,27 @@
 					      	</select>
 					    </div>
 						<div class="form-group form-group-inline col-2">
-					      	<select id="model" class="form-control" name="model" disabled>
+					      	<select id="model" class="form-control" name="model">
 					        	<option value="">Model...</option>
-					        	
+					        	<?php
+					        	foreach ($this->data['models'] as $model) {
+					        	?>
+					        	<option value="<?php echo $model->id; ?>"><?php echo $model->title; ?></option>
+					        	<?php
+					        	}
+					        	?>
 					      	</select>
 					    </div>
 					    <div class="form-group form-group-inline col-2">
-					      	<select id="software_v" class="form-control" name="software_v" disabled>
+					      	<select id="software" class="form-control" name="software">
 					        	<option value="">Software v...</option>
-					        	
+					        	<?php
+					        	foreach ($this->data['softwares'] as $software) {
+					        	?>
+					        	<option value="<?php echo $software->id; ?>"><?php echo $software->title; ?></option>
+					        	<?php
+					        	}
+					        	?>
 					      	</select>
 					    </div>
 					</div>
@@ -55,6 +67,7 @@
 						    <th scope="col" style="width: auto;">Serijski broj</th>
 						    <th scope="col" style="width: auto;">Tip</th>
 						    <th scope="col" style="width: auto;">Model</th>
+						    <th scope="col" style="width: auto;">Software</th>
 						    <th scope="col" style="width: auto;">Lokacija</th>
 						    <th scope="col" style="width: auto;">Opis</th>
 						    <th scope="col" style="width: auto;">Serviserska akcija</th>
@@ -69,6 +82,7 @@
 								<td><?php echo $row->sn; ?></td>
 								<td><?php echo $row->type; ?></td>
 								<td><?php echo $row->model; ?></td>
+								<td><?php echo $row->software; ?></td>
 								<td><?php echo $row->location; ?></td>
 								<td><?php echo $row->malfunction; ?></td>
 								<td><?php echo $row->action; ?></td>

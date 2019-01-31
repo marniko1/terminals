@@ -6,4 +6,9 @@ class DBServices extends DB {
 		$req = self::executeSQL($sql);
 		return $req;
 	}
+	public static function otherServiceActions ($device_id, $location_id, $malfunction_id, $comment, $action_type_id, $repairer_id, $user_id) {
+		$sql = "insert into malfunctions_history values (default, $device_id, $location_id, $malfunction_id, '$comment', $action_type_id, $repairer_id, $user_id, default)";
+		$req = self::executeSQL($sql);
+		return $req;
+	}
 }

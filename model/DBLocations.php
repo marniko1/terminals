@@ -9,14 +9,15 @@ class DBLocations extends DB {
 		$sql = "select * from locations where priority = 1 and title != 'magacin'";
 		return self::queryAndFetchInObj($sql);
 	}
-	public static function addNewLocation ($new_location, $priority) {
-		$sql = "insert into locations values (default,'$new_location',$priority)";
+	public static function addNewLocation ($new_location, $priority, $distributor_id) {
+		$sql = "select insert_new_location('$new_location',$priority,$distributor_id)";
 		$req = self::executeSQL($sql);
 		return $req;
 	}
 	public static function getAllLocationsInProposals ($cond) {
 		$sql = "select id, title as ajax_data from locations
-		where lower(title) like lower('%$cond%')";
+		where lower(title) like lower('%$cond%') 
+		order by title limit 6";
 		return self::queryAndFetchInObj($sql);
 	}
 }

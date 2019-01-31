@@ -137,7 +137,7 @@ class FilterAndPagination{
 		//                testing
 		// 
 		// ************************************************************************** //
-		$('.params select').on('click', function (){
+		$('.params select, input[type=date]').on('click change', function (){
 			var pagination = $('.pagination');
 			var filter_value = filter.val().trim();
 			pagination.removeClass('invisible');

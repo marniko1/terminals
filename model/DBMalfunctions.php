@@ -10,6 +10,7 @@ class DBMalfunctions extends DB {
 		d.sn, 
 		t.title as type, 
 		m.title as model, 
+		s.title as software, 
 		l.title as location, 
 		mf.title as malfunction, 
 		at.title as action, 
@@ -36,6 +37,11 @@ class DBMalfunctions extends DB {
 		join repairers as r 
 		on r.id = mh.repairer_id 
 
+		left join devices_softwares as ds 
+		on ds.device_id = d.id 
+		left join software as s 
+		on s.id = ds.software_id 
+
 		order by mh.id limit " .PG_RESULTS. " offset $skip";
 		return self::queryAndFetchInObj($sql);
 	}
@@ -43,6 +49,7 @@ class DBMalfunctions extends DB {
 		$sql = "select d.sn, 
 		t.title as type, 
 		m.title as model, 
+		s.title as software, 
 		l.title as location, 
 		mf.title as malfunction, 
 		at.title as action, 
@@ -50,7 +57,7 @@ class DBMalfunctions extends DB {
 		mh.comment, 
 		to_char(mh.date, 'DD.MM.YYYY') as date, 
 
-		(select count(*) from malfunctions_history where d.sn like '%$cond%') as total 
+		(select count(*) from malfunctions_history where d.sn like '%$cond%' " . $sql_addon . ") as total 
 
 		from malfunctions_history as mh 
 		join malfunctions as mf 
@@ -70,9 +77,19 @@ class DBMalfunctions extends DB {
 		join repairers as r 
 		on r.id = mh.repairer_id 
 
-		where d.sn like '%$cond%' 
+		left join devices_softwares as ds 
+		on ds.device_id = d.id 
+		left join software as s 
+		on s.id = ds.software_id 
+
+		where d.sn like '%$cond%' " . $sql_addon . "
 
 		order by mh.id limit " .PG_RESULTS. " offset $skip";
 		return self::queryAndFetchInObj($sql);
+	}
+	public static function addNew ($new_malfunction) {
+		$sql = "insert into malfunctions values (default, '$new_malfunction')";
+		$req = self::executeSQL($sql);
+		return $req;
 	}
 }

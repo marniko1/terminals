@@ -1,6 +1,4 @@
 window.onload = function() {
-	// console.log(window.location.origin + window.location.pathname);
-	// console.log(window.location.pathname);
 	// turn off autocomplete sugestion from browser
 	$('input').attr('autocomplete', 'off');
 	var url = window.location.origin + window.location.pathname;
@@ -18,11 +16,14 @@ window.onload = function() {
     if (window.location.pathname == '/terminals/Storage/index'
     	|| window.location.pathname == '/terminals/Storage/panel'
     	|| window.location.pathname == '/terminals/Storage/locations'
+    	|| window.location.pathname == '/terminals/Storage/device'
     	|| window.location.pathname == '/terminals/Service/index'
-    	|| window.location.pathname == '/terminals/SIMs/panel'
+    	|| window.location.pathname == '/terminals/SIMs/index'
     	|| window.location.pathname == '/terminals/Admin/index'
     	|| window.location.pathname == '/terminals/Devices/panel'
     	|| window.location.pathname == '/terminals/Service/panel'
+    	|| window.location.pathname == '/terminals/Service/other'
+    	|| window.location.pathname == '/terminals/Service/administration'
     	) {
     	// form validation
     	var frmvalidator = new Validator($('form'));
@@ -33,6 +34,13 @@ window.onload = function() {
     	frmvalidator.addValidation('device_sn', ['req', 'proposalValidation']);
     	frmvalidator.addValidation('location', ['req', 'proposalValidation']);
     	frmvalidator.addValidation('new_location', ['req', 'minLength=3']);
+    	frmvalidator.addValidation('new_distributor', ['req']);
+
+    	frmvalidator.addValidation('type', ['selectRequired']);
+
+    	frmvalidator.addValidation('username', ['req']);
+    	frmvalidator.addValidation('password', ['req', 'passConfirm=#co_password']);
+    	frmvalidator.addValidation('co_password', ['req', 'passConfirm=#password']);
 
 		new FormSubmit(frmvalidator);
 		
@@ -40,14 +48,17 @@ window.onload = function() {
     	new ShowProposals();
 	}
 	// ***********************************************************************************************
-	// if page url is single agent view prepare discharge
-	if (url_part[0] == 'Agents' && url_part[1].match(/^\d+$/)) {
-		new Discharge();
+	// if home page
+	// for chart drawing
+	if (url_part[0] == '') {
+		new DeviceCounter('terminals', ['magacin','servis','lanus'], ['terminali','lanus', 'certus']);
+		new DeviceCounter('qprox', ['magacin'], ['qprox']);
 	}
 	// ***********************************************************************************************
 	// if page url is charge view prepare charge form
 	if (url_part[0] == 'Storage'  && (url_part[1] == 'index' || url_part[1] == 'panel')) {
 		new Charge();
+		new Print('#print_btn', $('#delivery_note_div'), $('head').html());
 	}
 	// ***********************************************************************************************
 	// for single terminal page
@@ -57,13 +68,50 @@ window.onload = function() {
 		}
 	}
 	// **********************************************************************************************
+	// for STORAGE LOCATION PAGE
+	if (url_part[0] == 'Storage' && url_part[1] == 'locations') {
+		$('input:radio[name="priviledge"]').on('change', function() {
+			if ($(this).is(':checked') && $(this).val() == '2') {
+				$('#distributor').attr('disabled', false);
+    			frmvalidator.addValidation('distributor', ['selectRequired']);
+			} else if ($(this).is(':checked') && $(this).val() == '1') {
+				$('#distributor').attr('disabled', true);
+			}
+		});
+	}
+	// **********************************************************************************************
+	// for STORAGE DEVICE PAGE
+	if (url_part[0] == 'Storage' && url_part[1] == 'device') {
+		$('#type').on('change', function(){
+			// console.log($('#type option:selected').text());
+			if ($('#type option:selected').text() == 'terminal') {
+				$('#model').attr('disabled', false);
+    			frmvalidator.addValidation('model', ['selectRequired']);
+				frmvalidator.addValidation('new_device_sn', ['req', 'minLength=6', 'maxLength=6']);
+			} else {
+				$('#model').attr('disabled', true);
+    			frmvalidator.addValidation('new_device_sn', ['req', 'minLength=10', 'maxLength=10'], );
+			}
+		});
+	}
+	// **********************************************************************************************
 	// for SERVICE PAGE
-	if (url_part[0] == 'Service' && url_part[1] == 'index') {
-		new Switch();
-		// $('.service_action_links').on('click', function(e){
-		// 	e.preventDefault();
-		// 	$('.service_action_divs').addClass('d-none');
-		// 	$('#'+$(this).attr('id')+'_div').removeClass('d-none');
-		// })
+	if (url_part[0] == 'Service') {
+		if (url_part[1] == 'index') {
+			new Switch();
+	    	frmvalidator.addValidation('old_device_sn', ['req', 'proposalValidation']);
+	    	frmvalidator.addValidation('new_device_sn', ['req', 'proposalValidation']);
+			frmvalidator.addValidation('malfunction', ['selectRequired']);
+			frmvalidator.addValidation('repairer', ['selectRequired']);
+		} else if (url_part[1] == 'other') {
+			frmvalidator.addValidation('device_sn', ['req', 'proposalValidation']);
+			frmvalidator.addValidation('malfunction', ['selectRequired']);
+			frmvalidator.addValidation('action_type', ['selectRequired']);
+			frmvalidator.addValidation('repairer', ['selectRequired']);
+		} else if (url_part[1] == 'administration') {
+			frmvalidator.addValidation('new_thing', ['selectRequired']);
+			frmvalidator.addValidation('new_title', ['req']);
+			frmvalidator.addValidation('software', ['selectRequired']);
+		}
 	}
 }
